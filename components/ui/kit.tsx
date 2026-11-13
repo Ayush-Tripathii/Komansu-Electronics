@@ -124,7 +124,17 @@ export function RevealImage({
 }
 
 /* ---------- Velocity marquee ---------- */
-export function VelocityMarquee({ items, className = "", serifEvery = 2 }: { items: readonly string[]; className?: string; serifEvery?: number }) {
+export function VelocityMarquee({
+  items,
+  className = "",
+  serifEvery = 2,
+  speed = 1.3,
+}: {
+  items: readonly string[];
+  className?: string;
+  serifEvery?: number;
+  speed?: number;
+}) {
   const track = useRef<HTMLDivElement>(null);
   useEffect(() => {
     registerGsap();
@@ -139,13 +149,16 @@ export function VelocityMarquee({ items, className = "", serifEvery = 2 }: { ite
     io.observe(el);
     const tick = (_: number, dt: number) => {
       if (!visible) return;
+      const delta = Math.min(dt, 32);
       const v = lenis()?.velocity ?? 0;
       if (Math.abs(v) > 0.5) dir = v > 0 ? -1 : 1;
-      boost += (Math.min(Math.abs(v) * 0.9, 18) - boost) * 0.08;
-      x += dir * (0.035 + boost * 0.02) * dt * 0.06;
+      boost += (Math.min(Math.abs(v) * 0.8, 15) - boost) * 0.08;
+      x += dir * (speed + boost * 0.08) * (delta / 16.67);
       const half = el.scrollWidth / 2;
-      if (x <= -half) x += half;
-      if (x > 0) x -= half;
+      if (half > 0) {
+        if (x <= -half) x += half;
+        if (x > 0) x -= half;
+      }
       el.style.transform = `translate3d(${x}px,0,0)`;
     };
     gsap.ticker.add(tick);
@@ -153,10 +166,10 @@ export function VelocityMarquee({ items, className = "", serifEvery = 2 }: { ite
       gsap.ticker.remove(tick);
       io.disconnect();
     };
-  }, []);
-  const row = (hidden: boolean) =>
+  }, [speed]);
+  const row = (hidden: boolean, keyPrefix = 0) =>
     items.map((t, i) => (
-      <span key={`${hidden}-${i}`} aria-hidden={hidden || undefined} className="flex items-center">
+      <span key={`${hidden}-${keyPrefix}-${i}`} aria-hidden={hidden || undefined} className="flex items-center">
         <span className={i % serifEvery === 1 ? "serif text-brand" : ""}>{t}</span>
         <Star />
       </span>
@@ -164,8 +177,10 @@ export function VelocityMarquee({ items, className = "", serifEvery = 2 }: { ite
   return (
     <div className={`overflow-hidden ${className}`}>
       <div ref={track} className="marquee">
-        {row(false)}
-        {row(true)}
+        {row(false, 1)}
+        {row(false, 2)}
+        {row(true, 3)}
+        {row(true, 4)}
       </div>
     </div>
   );
