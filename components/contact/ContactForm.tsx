@@ -136,7 +136,7 @@ export function ContactForm() {
     try {
       const res = await fetch(ENDPOINT, { method: "POST", body: data });
       ok = res.ok;
-    } catch {}
+    } catch { }
     if (!ok) {
       // same fallback as the live site: open the visitor's mail client
       const name = `${data.get("fname")} ${data.get("lname") || ""}`.trim();
