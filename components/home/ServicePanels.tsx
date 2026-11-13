@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { HOME_SERVICES } from "@/lib/content";
 import { TransitionLink } from "@/components/transition/TransitionLink";
+import { assetPath } from "@/lib/site";
 
 /** Three expanding image panels — the hovered one opens, the others compress. */
 export function ServicePanels() {
@@ -24,7 +25,7 @@ export function ServicePanels() {
             style={{ flexGrow: on ? 2.4 : 1, flexBasis: 0 }}
           >
             <Image
-              src={s.image}
+              src={assetPath(s.image)}
               alt={s.alt}
               fill
               sizes="(min-width:1024px) 50vw, 100vw"

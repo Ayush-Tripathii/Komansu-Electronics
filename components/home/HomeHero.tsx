@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { gsap, isFinePointer, prefersReducedMotion, registerGsap } from "@/lib/gsap";
 import { MagneticButton } from "@/components/ui/MagneticButton";
+import { assetPath } from "@/lib/site";
 
 export function HomeHero() {
   const root = useRef<HTMLElement>(null);
@@ -93,7 +94,7 @@ export function HomeHero() {
       <div className="relative mt-16 sm:mt-24">
         <div ref={media} data-rise="load" data-delay="0.7" className="relative h-[72vh] min-h-[440px] overflow-hidden sm:h-[92vh]" style={{ clipPath: "inset(0% 4% 0% 4% round 36px)" }}>
           <div ref={img} className="absolute inset-0">
-            <Image src="/images/towers.jpg" alt="Glass towers rising into a pale sky" fill priority sizes="100vw" className="object-cover" />
+            <Image src={assetPath("/images/towers.jpg")} alt="Glass towers rising into a pale sky" fill priority sizes="100vw" className="object-cover" />
           </div>
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(245,243,238,.0)_40%,rgba(18,19,42,.35)_100%)]" />
           {/* soft scanning light */}

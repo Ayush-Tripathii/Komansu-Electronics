@@ -2,12 +2,13 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { assetPath } from "@/lib/site";
 
 const FEEDS = [
-  { src: "/images/warehouse-aisle.jpg", label: "Warehouse aisle", alt: "Warehouse racking aisle" },
-  { src: "/images/hotel-night.jpg", label: "Hotel pool deck", alt: "Hotel pool deck at dusk" },
-  { src: "/images/office.jpg", label: "Office floor", alt: "Open-plan office floor" },
-  { src: "/images/apartments.jpg", label: "Residential block", alt: "Apartment building exterior" },
+  { src: assetPath("/images/warehouse-aisle.jpg"), label: "Warehouse aisle", alt: "Warehouse racking aisle" },
+  { src: assetPath("/images/hotel-night.jpg"), label: "Hotel pool deck", alt: "Hotel pool deck at dusk" },
+  { src: assetPath("/images/office.jpg"), label: "Office floor", alt: "Open-plan office floor" },
+  { src: assetPath("/images/apartments.jpg"), label: "Residential block", alt: "Apartment building exterior" },
 ];
 
 /** Four camera feeds — hover one to promote it; the others compress like a VMS layout switch. */

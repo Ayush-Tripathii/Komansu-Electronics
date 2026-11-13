@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { gsap, isFinePointer, prefersReducedMotion } from "@/lib/gsap";
+import { assetPath } from "@/lib/site";
 
 // tripwire endpoints in % of the frame
 const A = { x: 14, y: 88 };
@@ -61,7 +62,7 @@ export function Tripwire() {
 
   return (
     <div ref={frame} data-cursor="none" className="relative aspect-[5/4] w-full overflow-hidden rounded-[28px] bg-ink-2">
-      <Image src="/images/warehouse.jpg" alt="A warehouse floor watched by an analytics camera" fill sizes="(min-width:1024px) 45vw, 100vw" className="object-cover" />
+      <Image src={assetPath("/images/warehouse.jpg")} alt="A warehouse floor watched by an analytics camera" fill sizes="(min-width:1024px) 45vw, 100vw" className="object-cover" />
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(18,19,42,.15),rgba(18,19,42,.35))]" />
       <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
         <line ref={line} x1={A.x} y1={A.y} x2={B.x} y2={B.y} stroke={alert?.kind === "in" ? "#f2541b" : "#ffffff"} strokeWidth="2.5" vectorEffect="non-scaling-stroke" strokeDasharray="10 7" className="transition-[stroke] duration-300" />

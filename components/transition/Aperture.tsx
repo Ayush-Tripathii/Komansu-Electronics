@@ -4,7 +4,7 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { gsap, prefersReducedMotion, ScrollTrigger } from "@/lib/gsap";
-import { ROUTE_NAMES } from "@/lib/site";
+import { ROUTE_NAMES, assetPath } from "@/lib/site";
 import type Lenis from "lenis";
 
 type Ctx = { navigate: (href: string) => void };
@@ -205,7 +205,7 @@ export function ApertureProvider({ children }: { children: React.ReactNode }) {
           <div className="shell relative flex flex-1 flex-col items-center justify-center gap-8">
             <div className="overflow-hidden">
               <div data-pre-in>
-                <Image src="/logo.jpg" alt="" width={454} height={188} priority className="logo-ko h-14 w-auto sm:h-20" />
+                <Image src={assetPath("/logo.jpg")} alt="" width={454} height={188} priority className="logo-ko h-14 w-auto sm:h-20" />
               </div>
             </div>
             <div className="overflow-hidden">

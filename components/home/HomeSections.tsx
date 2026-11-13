@@ -6,6 +6,7 @@ import { SERVICES, VALUES, WHY } from "@/lib/content";
 import { gsap, prefersReducedMotion, registerGsap } from "@/lib/gsap";
 import { TransitionLink } from "@/components/transition/TransitionLink";
 import { Check, MagneticButton, RevealImage, useSpotlight } from "@/components/ui/kit";
+import { assetPath } from "@/lib/site";
 
 /* ---------------- Values (three-up) ---------------- */
 const VALUE_ICONS = [
@@ -160,7 +161,7 @@ export function DisciplineGallery() {
               className="group relative flex w-[82vw] shrink-0 flex-col overflow-hidden rounded-[28px] bg-surface sm:w-[56vw] lg:w-[34vw] xl:w-[30vw]"
             >
               <div className="relative h-[34vh] min-h-[220px] overflow-hidden">
-                <Image src={s.image} alt={s.alt} fill sizes="(min-width:1024px) 34vw, 82vw" className="scale-[1.2] object-cover transition-[filter] duration-700 group-hover:brightness-105" />
+                <Image src={assetPath(s.image)} alt={s.alt} fill sizes="(min-width:1024px) 34vw, 82vw" className="scale-[1.2] object-cover transition-[filter] duration-700 group-hover:brightness-105" />
                 <span className="absolute left-5 top-5 rounded-full bg-white/85 px-3.5 py-1.5 text-[13px] font-medium text-ink backdrop-blur">
                   {String(i + 1).padStart(2, "0")}
                 </span>

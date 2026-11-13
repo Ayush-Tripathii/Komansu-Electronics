@@ -8,7 +8,7 @@ import { ApertureProvider } from "@/components/transition/Aperture";
 import { Nav } from "@/components/chrome/Nav";
 import { Footer } from "@/components/chrome/Footer";
 import { Cursor } from "@/components/cursor/Cursor";
-import { META, SITE_URL } from "@/lib/site";
+import { META, SITE_URL, assetPath } from "@/lib/site";
 import { SERVICES } from "@/lib/content";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"], display: "swap" });
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   description: META.home.description,
   openGraph: { type: "website", siteName: "Komansu Electronics", locale: "en_IN", images: ["/images/towers.jpg"] },
   twitter: { card: "summary_large_image" },
-  icons: { icon: "/favicon.ico" },
+  icons: { icon: assetPath("/favicon.ico") },
 };
 
 export const viewport: Viewport = {

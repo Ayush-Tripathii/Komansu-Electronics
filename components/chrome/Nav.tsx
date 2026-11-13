@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { NAV } from "@/lib/site";
+import { NAV, assetPath } from "@/lib/site";
 import { TransitionLink } from "@/components/transition/TransitionLink";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
@@ -85,7 +85,7 @@ export function Nav() {
           }`}
         >
           <TransitionLink href="/" aria-label="Komansu Electronics — Home" className="relative z-10 flex items-center">
-            <Image src="/logo.jpg" alt="Komansu Electronics Pvt. Ltd." width={454} height={188} priority className="logo-ko h-[34px] w-auto" />
+            <Image src={assetPath("/logo.jpg")} alt="Komansu Electronics Pvt. Ltd." width={454} height={188} priority className="logo-ko h-[34px] w-auto" />
           </TransitionLink>
 
           <ul ref={list} className="absolute left-1/2 hidden -translate-x-1/2 items-center lg:flex" onMouseLeave={() => moveTo(null)}>

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
-import { FOOTER_COMPANY, FOOTER_SERVICES } from "@/lib/site";
+import { FOOTER_COMPANY, FOOTER_SERVICES, assetPath } from "@/lib/site";
 import { TransitionLink } from "@/components/transition/TransitionLink";
 import { gsap, prefersReducedMotion, registerGsap } from "@/lib/gsap";
 
@@ -67,7 +67,7 @@ export function Footer() {
         <div className="shell pt-24 sm:pt-32">
           <div className="flex flex-col justify-between gap-10 border-b border-line pb-16 lg:flex-row lg:items-end">
             <div className="max-w-xl">
-              <Image src="/logo.jpg" alt="Komansu Electronics Pvt. Ltd." width={454} height={188} className="logo-ko h-11 w-auto" />
+              <Image src={assetPath("/logo.jpg")} alt="Komansu Electronics Pvt. Ltd." width={454} height={188} className="logo-ko h-11 w-auto" />
               <p className="mt-7 text-[clamp(1.25rem,1.7vw,1.6rem)] leading-snug tracking-[-0.02em] text-ink">
                 Expert ELV systems design and deployment — CCTV, Fire Alarm, PAGA, Access Control &amp; Data Networks.
               </p>

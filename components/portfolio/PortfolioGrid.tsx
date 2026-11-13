@@ -5,6 +5,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { Flip } from "gsap/Flip";
 import { PROJECTS } from "@/lib/content";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
+import { assetPath } from "@/lib/site";
 
 const FILTERS = ["All", ...PROJECTS.map((p) => p.sector)];
 const STATES = [
@@ -104,7 +105,7 @@ export function PortfolioGrid() {
           <article key={p.id} data-pcard className={`group relative overflow-hidden rounded-[28px] border border-line bg-surface p-3 ${shown.length > 2 && i === 0 ? "md:col-span-2" : ""}`}>
             <div className={`relative overflow-hidden rounded-[20px] bg-bg-soft ${shown.length > 2 && i === 0 ? "aspect-[16/7]" : "aspect-[16/10]"}`} data-cursor="none">
               <Image
-                src={p.image}
+                src={assetPath(p.image)}
                 alt={`${p.title} — on-site camera views`}
                 fill
                 sizes="(min-width:768px) 50vw, 100vw"

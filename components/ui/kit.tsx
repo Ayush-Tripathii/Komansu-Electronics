@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { gsap, isFinePointer, prefersReducedMotion, registerGsap } from "@/lib/gsap";
 import { TransitionLink } from "@/components/transition/TransitionLink";
+import { assetPath } from "@/lib/site";
 import { MagneticButton } from "./MagneticButton";
 
 /* ---------- Section heading ---------- */
@@ -86,7 +87,7 @@ export function PageHero({
       {image && (
         <div className="relative mt-16 sm:mt-24">
           <div data-grow className="relative h-[62vh] min-h-[380px] w-full overflow-hidden sm:h-[86vh]" data-cursor="none">
-            <Image src={image} alt={alt ?? ""} fill priority sizes="100vw" className="object-cover" />
+            <Image src={assetPath(image)} alt={alt ?? ""} fill priority sizes="100vw" className="object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-[rgba(18,19,42,.25)] to-transparent" />
           </div>
         </div>
@@ -116,7 +117,7 @@ export function RevealImage({
   return (
     <div data-reveal className={`group relative overflow-hidden ${className}`} style={{ borderRadius: radius, ["--r" as string]: `${radius}px` }}>
       <div className={parallax ? "absolute inset-x-0 -bottom-[8%] -top-[8%]" : "absolute inset-0"} data-parallax={parallax ? "0.16" : undefined}>
-        <Image src={src} alt={alt} fill sizes={sizes} priority={priority} className="object-cover transition-transform duration-[1.6s] ease-[cubic-bezier(.16,1,.3,1)] group-hover:scale-[1.06]" />
+        <Image src={assetPath(src)} alt={alt} fill sizes={sizes} priority={priority} className="object-cover transition-transform duration-[1.6s] ease-[cubic-bezier(.16,1,.3,1)] group-hover:scale-[1.06]" />
       </div>
     </div>
   );
