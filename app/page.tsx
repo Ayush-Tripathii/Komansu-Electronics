@@ -1,103 +1,100 @@
-import Image from "next/image";
+import type { Metadata } from "next";
+import { META } from "@/lib/site";
+import { INDUSTRIES } from "@/lib/site";
+import { HomeHero } from "@/components/home/HomeHero";
+import { ServicePanels } from "@/components/home/ServicePanels";
+import { DisciplineGallery, StatsBand, Values, Why } from "@/components/home/HomeSections";
+import { ClosingCta, MagneticButton, SectionHead, VelocityMarquee } from "@/components/ui/kit";
+
+export const metadata: Metadata = {
+  title: META.home.title,
+  description: META.home.description,
+  alternates: { canonical: "/" },
+};
 
 export default function Home() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <>
+      <HomeHero />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      {/* Industries */}
+      <section aria-labelledby="industries" className="pt-24 sm:pt-32">
+        <div className="shell mb-10 flex items-center justify-between gap-6">
+          <h2 id="industries" data-rise className="text-[15px] font-medium text-ink-2">
+            Industries We Serve
+          </h2>
+          <span data-rule className="rule hidden flex-1 sm:block" />
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+        <VelocityMarquee items={INDUSTRIES} className="font-display text-[clamp(2.6rem,7vw,7rem)] font-medium leading-[1.05] tracking-[-0.045em] text-ink" />
+        <ul className="sr-only">
+          {INDUSTRIES.map((i) => (
+            <li key={i}>{i}</li>
+          ))}
+        </ul>
+      </section>
+
+      {/* Statement */}
+      <section className="section-y">
+        <div className="shell">
+          <div data-rise className="mb-10">
+            <span className="eyebrow">What We Do</span>
+          </div>
+          <p data-scrub className="statement max-w-[24ch]">
+            Integrated security, safety, communications and network infrastructure — delivered as one coordinated package.
+          </p>
+        </div>
+      </section>
+
+      {/* Core services */}
+      <section aria-labelledby="core-services" className="pb-[var(--section-y)]">
+        <div className="shell">
+          <div className="mb-14 flex flex-col justify-between gap-8 md:flex-row md:items-end">
+            <SectionHead id="core-services" title={<>Our Core <span className="serif text-brand">ELV Services</span></>} />
+            <div data-rise>
+              <MagneticButton href="/services" variant="ghost">
+                View All Services
+              </MagneticButton>
+            </div>
+          </div>
+          <ServicePanels />
+        </div>
+      </section>
+
+      {/* Values */}
+      <section className="pb-[var(--section-y)]">
+        <div className="shell">
+          <Values />
+        </div>
+      </section>
+
+      {/* Stats */}
+      <section aria-label="Key figures" className="border-y border-line py-20 sm:py-28">
+        <div className="shell">
+          <StatsBand
+            items={[
+              ["5+", "ELV Disciplines"],
+              ["100%", "Design-to-Deploy"],
+              ["500+", "Sites Completed"],
+              ["3", "States"],
+            ]}
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+        </div>
+      </section>
+
+      {/* Why */}
+      <section className="section-y">
+        <div className="shell">
+          <Why />
+        </div>
+      </section>
+
+      <DisciplineGallery />
+
+      <ClosingCta
+        title={<>Ready to Start Your <span className="serif text-brand">ELV Project?</span></>}
+        body="Tell us about your project and we'll respond within 24 business hours."
+        cta="Request a Consultation"
+      />
+    </>
   );
 }
