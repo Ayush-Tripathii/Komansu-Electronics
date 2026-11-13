@@ -130,53 +130,73 @@ export function DisciplineGallery() {
         gsap.fromTo(c.querySelector("img"), { xPercent: -8 }, { xPercent: 8, ease: "none", scrollTrigger: { trigger: c, containerAnimation: tween, start: "left right", end: "right left", scrub: true } });
       });
     });
+    mm.add("(max-width: 1023px)", () => {
+      const t = track.current!;
+      const dist = () => t.scrollWidth - window.innerWidth + 20;
+      const tween = gsap.to(t, {
+        x: () => -dist(),
+        ease: "none",
+        scrollTrigger: {
+          trigger: root.current,
+          start: "top top",
+          end: () => `+=${dist() * 1.15}`,
+          pin: true,
+          scrub: 0.8,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => bar.current && (bar.current.style.transform = `scaleX(${self.progress})`),
+        },
+      });
+      gsap.utils.toArray<HTMLElement>("[data-hcard]").forEach((c) => {
+        gsap.fromTo(c.querySelector("img"), { xPercent: -6 }, { xPercent: 6, ease: "none", scrollTrigger: { trigger: c, containerAnimation: tween, start: "left right", end: "right left", scrub: true } });
+      });
+    });
     return () => mm.revert();
   }, []);
 
   return (
     <div>
-    <section ref={root} className="relative overflow-hidden bg-bg-soft py-24 lg:flex lg:h-screen lg:flex-col lg:justify-center lg:py-0">
-      <div className="shell flex flex-col justify-between gap-6 md:flex-row md:items-end">
+    <section ref={root} className="relative overflow-hidden bg-bg-soft flex flex-col justify-center h-screen min-h-[600px] py-6 sm:py-8 lg:h-screen lg:py-0">
+      <div className="shell flex flex-col justify-between gap-4 md:flex-row md:items-end">
         <div>
           <span data-rise className="eyebrow">
             What We Do
           </span>
-          <h2 data-split className="t-h2 mt-5 max-w-[16ch]">
+          <h2 data-split className="t-h2 mt-3 sm:mt-5 max-w-[16ch]">
             Our ELV <span className="serif text-brand">Services</span>
           </h2>
         </div>
-        <p data-rise className="lead md:max-w-[40ch]">
+        <p data-rise className="lead text-[15px] sm:text-[18px] md:max-w-[40ch]">
           Full-spectrum Extra Low Voltage design and deployment — across five core disciplines, delivered end-to-end.
         </p>
       </div>
 
-      <div className="no-scrollbar mt-12 overflow-x-auto lg:overflow-visible">
-        <div ref={track} className="flex w-max gap-5 px-[var(--gutter)]">
+      <div className="no-scrollbar mt-6 sm:mt-10 lg:mt-12 overflow-hidden lg:overflow-visible">
+        <div ref={track} className="flex w-max gap-4 sm:gap-5 px-[var(--gutter)]">
           {SERVICES.map((s, i) => (
             <TransitionLink
               key={s.id}
               href={`/services#${s.id}`}
               data-hcard
               data-cursor="view"
-              className="group relative flex w-[82vw] shrink-0 flex-col overflow-hidden rounded-[28px] bg-surface sm:w-[56vw] lg:w-[34vw] xl:w-[30vw]"
+              className="group relative flex w-[80vw] shrink-0 flex-col overflow-hidden rounded-[24px] sm:rounded-[28px] bg-surface sm:w-[56vw] lg:w-[34vw] xl:w-[30vw]"
             >
-              <div className="relative h-[34vh] min-h-[220px] overflow-hidden">
-                <Image src={assetPath(s.image)} alt={s.alt} fill sizes="(min-width:1024px) 34vw, 82vw" className="scale-[1.2] object-cover transition-[filter] duration-700 group-hover:brightness-105" />
-                <span className="absolute left-5 top-5 rounded-full bg-white/85 px-3.5 py-1.5 text-[13px] font-medium text-ink backdrop-blur">
+              <div className="relative h-[24vh] min-h-[160px] sm:h-[30vh] lg:h-[34vh] lg:min-h-[220px] overflow-hidden">
+                <Image src={assetPath(s.image)} alt={s.alt} fill sizes="(min-width:1024px) 34vw, 80vw" className="scale-[1.2] object-cover transition-[filter] duration-700 group-hover:brightness-105" />
+                <span className="absolute left-4 top-4 sm:left-5 sm:top-5 rounded-full bg-white/85 px-3 py-1 sm:px-3.5 sm:py-1.5 text-[12px] sm:text-[13px] font-medium text-ink backdrop-blur">
                   {String(i + 1).padStart(2, "0")}
                 </span>
               </div>
-              <div className="flex flex-1 flex-col p-7">
-                <h3 className="t-h3">{s.title}</h3>
-                <ul className="mt-4 space-y-1.5 text-[15px] text-ink-2">
+              <div className="flex flex-1 flex-col p-5 sm:p-7">
+                <h3 className="t-h3 text-[20px] sm:text-[24px]">{s.title}</h3>
+                <ul className="mt-3 sm:mt-4 space-y-1 sm:space-y-1.5 text-[14px] sm:text-[15px] text-ink-2">
                   {s.points.slice(0, 2).map((p) => (
                     <li key={p} className="flex gap-2">
-                      <span className="mt-[10px] h-1 w-1 shrink-0 rounded-full bg-accent" />
-                      {p}
+                      <span className="mt-[8px] sm:mt-[10px] h-1 w-1 shrink-0 rounded-full bg-accent" />
+                      <span className="line-clamp-2">{p}</span>
                     </li>
                   ))}
                 </ul>
-                <span className="mt-auto flex items-center gap-2 pt-6 text-[15px] font-medium text-brand">
+                <span className="mt-auto flex items-center gap-2 pt-4 sm:pt-6 text-[14px] sm:text-[15px] font-medium text-brand">
                   <span className="roll">
                     <span>Explore service</span>
                     <span aria-hidden="true">Explore service</span>
@@ -190,7 +210,7 @@ export function DisciplineGallery() {
           ))}
         </div>
       </div>
-      <div className="shell mt-10 hidden lg:block">
+      <div className="shell mt-6 sm:mt-8 lg:mt-10 block">
         <div className="h-[2px] w-full overflow-hidden rounded bg-line">
           <span ref={bar} className="block h-full origin-left bg-gradient-to-r from-brand to-accent" style={{ transform: "scaleX(0)" }} />
         </div>

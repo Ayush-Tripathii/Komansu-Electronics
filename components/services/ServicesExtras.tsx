@@ -118,7 +118,6 @@ export function ProcessTimeline() {
   const root = useRef<HTMLElement>(null);
   const track = useRef<HTMLDivElement>(null);
   const cable = useRef<SVGPathElement>(null);
-  const vline = useRef<HTMLSpanElement>(null);
 
   const pts = PROCESS.map((_, i) => ({ x: 120 + i * STEP_W, y: i % 2 ? 380 : 140 }));
   let d = `M0 260`;
@@ -148,29 +147,38 @@ export function ProcessTimeline() {
       });
     });
     mm.add("(max-width: 1023px)", () => {
-      gsap.fromTo(vline.current, { scaleY: 0 }, { scaleY: 1, ease: "none", scrollTrigger: { trigger: root.current, start: "top 60%", end: "bottom 70%", scrub: true } });
+      const t = track.current!;
+      const dist = () => t.scrollWidth - window.innerWidth + 40;
+      gsap.set(cable.current, { strokeDasharray: 1, strokeDashoffset: 1 });
+      const tl = gsap.timeline({
+        scrollTrigger: { trigger: root.current, start: "top top", end: () => `+=${dist() * 1.15}`, pin: true, scrub: 0.8, invalidateOnRefresh: true },
+      });
+      tl.to(t, { x: () => -dist(), ease: "none" }, 0).to(cable.current, { strokeDashoffset: 0, ease: "none" }, 0);
+      gsap.utils.toArray<HTMLElement>("[data-step]").forEach((s) => {
+        gsap.from(s, { opacity: 0.25, scale: 0.94, ease: "none", scrollTrigger: { trigger: s, containerAnimation: tl, start: "left 90%", end: "left 40%", scrub: true } });
+      });
     });
     return () => mm.revert();
   }, []);
 
   return (
     <div>
-    <section ref={root} aria-labelledby="process-t" className="relative overflow-hidden bg-bg-soft py-24 lg:h-screen lg:py-0">
+    <section ref={root} aria-labelledby="process-t" className="relative overflow-hidden bg-bg-soft flex flex-col justify-center h-screen min-h-[640px] py-6 sm:py-8 lg:h-screen lg:py-0">
       <div className="lg:flex lg:h-full lg:flex-col lg:justify-center">
-        <div className="shell flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
+        <div className="shell flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
           <div>
             <span data-rise className="eyebrow">
               Our Approach
             </span>
-            <h2 id="process-t" data-split className="t-h2 mt-5">
+            <h2 id="process-t" data-split className="t-h2 mt-3 sm:mt-5">
               How We <span className="serif text-brand">Deliver</span>
             </h2>
           </div>
           <div className="lg:max-w-[46ch]">
-            <p data-rise className="body">
+            <p data-rise className="body text-[15px] sm:text-[16px]">
               Every project follows a structured workflow — from initial site survey and design through procurement, installation supervision, testing &amp; commissioning, and final as-built documentation handover.
             </p>
-            <div data-rise className="mt-6">
+            <div data-rise className="mt-4 sm:mt-6">
               <MagneticButton href="/contact" variant="primary" size="sm">
                 Discuss Your Project
               </MagneticButton>
@@ -178,8 +186,8 @@ export function ProcessTimeline() {
           </div>
         </div>
 
-        {/* desktop: horizontal track */}
-        <div className="relative mt-10 hidden lg:block">
+        {/* horizontal track: mobile & desktop */}
+        <div className="relative mt-8 sm:mt-10 block overflow-hidden lg:overflow-visible">
           <div ref={track} className="relative h-[520px]" style={{ width: totalW }}>
             <svg className="absolute inset-0 h-full" width={totalW} viewBox={`0 0 ${totalW} 520`} aria-hidden="true">
               <path d={d} fill="none" stroke="rgba(42,27,110,.12)" strokeWidth="10" strokeLinecap="round" />
@@ -198,26 +206,15 @@ export function ProcessTimeline() {
               </g>
             </svg>
             {PROCESS.map((p, i) => (
-              <div key={p} data-step className="absolute w-[330px]" style={{ left: pts[i].x - 40, top: i % 2 ? 250 : 0 }}>
-                <div className="relative rounded-[24px] border border-line bg-surface p-7 shadow-[var(--shadow-soft)]">
-                  <span className="font-display text-[56px] font-medium leading-none tracking-[-0.05em] text-brand/15">{String(i + 1).padStart(2, "0")}</span>
-                  <p className="mt-4 font-display text-[21px] font-medium leading-snug tracking-[-0.02em]">{p}</p>
+              <div key={p} data-step className="absolute w-[290px] sm:w-[330px]" style={{ left: pts[i].x - 40, top: i % 2 ? 250 : 0 }}>
+                <div className="relative rounded-[24px] border border-line bg-surface p-6 sm:p-7 shadow-[var(--shadow-soft)]">
+                  <span className="font-display text-[48px] sm:text-[56px] font-medium leading-none tracking-[-0.05em] text-brand/15">{String(i + 1).padStart(2, "0")}</span>
+                  <p className="mt-3 sm:mt-4 font-display text-[19px] sm:text-[21px] font-medium leading-snug tracking-[-0.02em]">{p}</p>
                 </div>
               </div>
             ))}
           </div>
         </div>
-
-        {/* mobile: vertical */}
-        <ol className="shell relative mt-12 space-y-4 lg:hidden">
-          <span ref={vline} aria-hidden="true" className="absolute bottom-4 left-[calc(var(--gutter)+27px)] top-4 w-[3px] origin-top rounded bg-gradient-to-b from-brand to-accent" />
-          {PROCESS.map((p, i) => (
-            <li key={p} data-rise className="relative flex items-center gap-5 rounded-[22px] border border-line bg-surface p-5">
-              <span className="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-brand font-display text-lg font-medium text-white">{i + 1}</span>
-              <span className="font-display text-[18px] font-medium leading-snug tracking-[-0.02em]">{p}</span>
-            </li>
-          ))}
-        </ol>
       </div>
     </section>
     </div>
