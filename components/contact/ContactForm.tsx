@@ -51,21 +51,50 @@ function Field({ name, label, type = "text", required, area, error, autoComplete
   );
 }
 
-function Chips({ name, legend, options }: { name: string; legend: string; options: string[] }) {
+function DropdownField({
+  name,
+  label,
+  options,
+  placeholder,
+}: {
+  name: string;
+  label: string;
+  options: readonly string[];
+  placeholder: string;
+}) {
+  const id = `f-${name}`;
   return (
-    <fieldset>
-      <legend className="mb-4 text-[15px] font-medium text-ink">{legend}</legend>
-      <div className="flex flex-wrap gap-2.5">
-        {options.map((o) => (
-          <label key={o} className="group relative cursor-pointer">
-            <input type="radio" name={name} value={o} className="peer sr-only" />
-            <span className="relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-line-strong px-4 py-2.5 text-[14.5px] text-ink-2 transition-colors duration-300 hover:border-brand hover:text-ink peer-checked:border-brand peer-checked:bg-brand peer-checked:text-white peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand-2">
+    <div className="group relative">
+      <label htmlFor={id} className="block text-[14px] font-medium text-ink-2 mb-2">
+        {label}
+      </label>
+      <div className="relative">
+        <select
+          id={id}
+          name={name}
+          defaultValue=""
+          className="w-full appearance-none rounded-[18px] border border-line-strong bg-white/70 px-4 py-3.5 pr-11 text-[15px] font-medium text-ink transition-all duration-300 hover:border-brand hover:bg-white focus:border-brand focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand/20 cursor-pointer shadow-sm"
+        >
+          <option value="" disabled className="text-ink-3">
+            {placeholder}
+          </option>
+          {options.map((o) => (
+            <option key={o} value={o} className="text-ink bg-white py-1.5">
               {o}
-            </span>
-          </label>
-        ))}
+            </option>
+          ))}
+        </select>
+        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4 text-ink-3 transition-colors duration-200 group-hover:text-brand">
+          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path
+              fillRule="evenodd"
+              d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </div>
       </div>
-    </fieldset>
+    </div>
   );
 }
 
@@ -143,8 +172,20 @@ export function ContactForm() {
           <Field name="email" type="email" label="Email Address" required error={errors.email} autoComplete="email" />
           <Field name="phone" type="tel" label="Phone Number" autoComplete="tel" />
         </div>
-        <Chips name="service" legend="Service Required" options={SERVICE_OPTIONS} />
-        <Chips name="project_type" legend="Project Type" options={PROJECT_TYPES} />
+        <div className="grid gap-6 sm:grid-cols-2">
+          <DropdownField
+            name="service"
+            label="Service Required"
+            placeholder="Select a service…"
+            options={SERVICE_OPTIONS}
+          />
+          <DropdownField
+            name="project_type"
+            label="Project Type"
+            placeholder="Select project type…"
+            options={PROJECT_TYPES}
+          />
+        </div>
         <Field name="message" label="Project Details" area required error={errors.message} />
 
         {/* honeypot — keep the field named "website" */}
